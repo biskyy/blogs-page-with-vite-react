@@ -2,7 +2,7 @@ import {
   createBrowserRouter,
   RouterProvider,
 } from "react-router-dom";
-import Home from "./components/pages/Home";
+import Home, { homePageLoader } from "./components/pages/Home";
 import { createUseStyles } from "react-jss";
 import AddBlogPost from "./components/pages/AddBlogPost";
 import BlogPage, { blogPageLoader } from "./components/pages/BlogPage";
@@ -20,6 +20,7 @@ const router = createBrowserRouter([
   {
     path: "/",
     element: <Home />,
+    loader: homePageLoader
   },
   {
     path: "/addBlogPost",

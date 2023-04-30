@@ -5,7 +5,8 @@ export interface BlogLayout {
   title: string;
   summary: string;
   content: string;
-  id: string;
+  _id?: string;
+  date: Date;
 }
 
 const useStyles = createUseStyles({
@@ -33,7 +34,7 @@ const useStyles = createUseStyles({
 const BlogPost = (blog: BlogLayout) => {
   const styles = useStyles();
   return (
-    <Link to={`/blog/${blog.id}`} className={styles.link}>
+    <Link to={`/blog/${blog._id}`} className={styles.link}>
       <div className={styles.blogPost}>
         <div className={styles.blogPostContainer}>
           <h2 className={styles.blogTxt}>{blog.title}</h2>

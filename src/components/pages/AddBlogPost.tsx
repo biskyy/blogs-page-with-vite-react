@@ -1,8 +1,7 @@
 import NavBar from "../NavBar";
 import { createUseStyles } from "react-jss";
-import { v4 as uuidv4 } from "uuid";
 import { BlogLayout } from "../BlogPost";
-import { Form } from "react-router-dom";
+import { Form} from "react-router-dom";
 import { useState } from "react";
 import ReactMarkdown from "react-markdown";
 
@@ -21,15 +20,31 @@ const useStyles = createUseStyles({
     padding: "0px",
   },
   titleInput: {
-    height: "30px"
-  }
+    height: "30px",
+  },
 });
 
 const AddBlogPost = () => {
   const styles = useStyles();
 
-  const [blogTitle, setBlogTitle] = useState('')
-  const [blogContent, setBlogContent] = useState('')
+  const [blogTitle, setBlogTitle] = useState("");
+  const [blogContent, setBlogContent] = useState("");
+
+  const handleFormSubmit = (e: any) => {
+    e.preventDefault();
+
+    const form = e.target;
+    const formData = new FormData(form);
+
+    const submitedBlog: BlogLayout = {
+      title: formData.get("title") as string,
+      content: formData.get("content") as string,
+      summary: formData.get("summary") as string,
+      date: new Date(),
+    };
+
+    fetchAddBlogPost(submitedBlog);
+  };
 
   const fetchAddBlogPost = async (blog: BlogLayout) => {
     await fetch("http://localhost:8080/blogs", {
@@ -38,40 +53,30 @@ const AddBlogPost = () => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        id: blog.id,
         title: blog.title,
         summary: blog.summary,
         content: blog.content,
+        date: blog.date,
       }),
     })
       .then((res) => {
         res.json();
         window.location.reload();
+        window.location.pathname = "/";
       })
       .catch((err) => console.error(err));
-  };
-
-  const handleFormSubmit = (e: any) => {
-    e.preventDefault();
-
-    const form = e.target;
-    const formData = new FormData(form);
-    
-    const submitedBlog: BlogLayout = {
-      title: formData.get("title") as string,
-      content: formData.get("content") as string,
-      summary: formData.get("summary") as string,
-      id: uuidv4(),
-    };
-
-    fetchAddBlogPost(submitedBlog);
   };
 
   return (
     <div className={styles.mainDiv}>
       <NavBar />
       <h1>Add Blog Post</h1>
-      <Form method="post" action="/" onSubmit={handleFormSubmit} style={{ width: "100%" }}>
+      <Form
+        method="post"
+        action="/"
+        onSubmit={handleFormSubmit}
+        style={{ width: "100%" }}
+      >
         <label htmlFor="blogPostTitle">Blog Post Title</label>
         <br />
         <input
@@ -116,9 +121,7 @@ const AddBlogPost = () => {
       <div>
         <h1>{blogTitle}</h1>
         <br />
-        <ReactMarkdown>
-          {blogContent}
-        </ReactMarkdown>
+        <ReactMarkdown>{blogContent}</ReactMarkdown>
       </div>
     </div>
   );

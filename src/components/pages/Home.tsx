@@ -1,6 +1,7 @@
 import { createUseStyles } from "react-jss";
 import BlogPost, { BlogLayout } from "../BlogPost";
 import NavBar from "../NavBar";
+import { useLoaderData } from "react-router-dom";
 
 const useStyles = createUseStyles({
   mainDiv: {
@@ -9,30 +10,41 @@ const useStyles = createUseStyles({
   },
 });
 
+const sortArrayByDate = (a: any, b: any) => {
+  return new Date(b.date).getTime() - new Date(a.date).getTime();
+};
+
 const blogs = await fetch("http://localhost:8080/blogs").then(
   async (res) => await res.json()
 );
 
-const blogsArray: BlogLayout[] = [...blogs];
+export const getBlog = async (blogID: string) => {
+  return [...blogs].find((blog: any) => blog._id === blogID);
+};
 
-export const getBlog = (blogID: string) =>{
-  return blogsArray.find((blog) => blog.id === blogID);
-}
+
+export const homePageLoader = async () => {
+  const blogsArray: BlogLayout[] = [...blogs].sort(sortArrayByDate);
+  return blogsArray;
+};
 
 const Home = () => {
   const styles = useStyles();
+  const blogsArray: any = useLoaderData();
+
   return (
     <>
       <NavBar />
       <div className={styles.mainDiv}>
-        {blogsArray.map((blog, index) => {
+        {blogsArray.map((blog: BlogLayout, index: number) => {
           return (
             <BlogPost
               key={index}
               content={blog.content}
-              id={blog.id}
+              _id={blog._id}
               title={blog.title}
               summary={blog.summary}
+              date={blog.date}
             />
           );
         })}
