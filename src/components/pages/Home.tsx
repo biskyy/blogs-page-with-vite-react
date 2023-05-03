@@ -1,6 +1,6 @@
 import { createUseStyles } from "react-jss";
 import BlogPost, { BlogLayout } from "../BlogPost";
-import NavBar from "../NavBar";
+import DefaultNavbar from "../DefaultNavbar";
 import { useLoaderData } from "react-router-dom";
 
 const useStyles = createUseStyles({
@@ -22,7 +22,6 @@ export const getBlog = async (blogID: string) => {
   return [...blogs].find((blog: any) => blog._id === blogID);
 };
 
-
 export const homePageLoader = async () => {
   const blogsArray: BlogLayout[] = [...blogs].sort(sortArrayByDate);
   return blogsArray;
@@ -34,7 +33,7 @@ const Home = () => {
 
   return (
     <>
-      <NavBar />
+      <DefaultNavbar />
       <div className={styles.mainDiv}>
         {blogsArray.map((blog: BlogLayout, index: number) => {
           return (

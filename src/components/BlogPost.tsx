@@ -14,7 +14,6 @@ const useStyles = createUseStyles({
     display: "flex",
     minHeight: "75px",
     backgroundColor: "#394867",
-    margin: "20px",
   },
   blogPostContainer: { margin: "20px", width: "100%", overflow: "hidden" },
   blogTxt: {
@@ -34,14 +33,16 @@ const useStyles = createUseStyles({
 const BlogPost = (blog: BlogLayout) => {
   const styles = useStyles();
   return (
-    <Link to={`/blog/${blog._id}`} className={styles.link}>
-      <div className={styles.blogPost}>
-        <div className={styles.blogPostContainer}>
-          <h2 className={styles.blogTxt}>{blog.title}</h2>
-          <p className={styles.blogTxt}>{blog.summary}</p>
+    <div style={{margin: "20px"}}>
+      <Link to={`/blog/${blog._id}`} className={styles.link}>
+        <div className={styles.blogPost}>
+          <div className={styles.blogPostContainer}>
+            <h2 className={styles.blogTxt}>{blog.title}</h2>
+            <p className={styles.blogTxt}>{blog.summary}</p>
+          </div>
         </div>
-      </div>
-    </Link>
+      </Link>
+    </div>
   );
 };
 

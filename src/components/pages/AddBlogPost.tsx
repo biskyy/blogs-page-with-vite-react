@@ -1,7 +1,7 @@
-import NavBar from "../NavBar";
+import DefaultNavbar from "../DefaultNavbar";
 import { createUseStyles } from "react-jss";
 import { BlogLayout } from "../BlogPost";
-import { Form} from "react-router-dom";
+import { Form } from "react-router-dom";
 import { useState } from "react";
 import ReactMarkdown from "react-markdown";
 
@@ -69,7 +69,7 @@ const AddBlogPost = () => {
 
   return (
     <div className={styles.mainDiv}>
-      <NavBar />
+      <DefaultNavbar />
       <h1>Add Blog Post</h1>
       <Form
         method="post"

@@ -1,6 +1,6 @@
 import { useLoaderData } from "react-router-dom";
 import { getBlog } from "./Home";
-import NavBar from "../NavBar";
+import DefaultNavbar from "../DefaultNavbar";
 import { createUseStyles } from "react-jss";
 import ReactMarkdown from "react-markdown";
 
@@ -28,13 +28,11 @@ const BlogPage = () => {
   const blog: any = useLoaderData();
   return (
     <>
-      <NavBar />
+      <DefaultNavbar />
       <div className={styles.mainDiv}>
         <div className={styles.blogContainer}>
           <h1 className={styles.blogTitle}>{blog.title}</h1>
-          <ReactMarkdown>
-            {blog.content}
-          </ReactMarkdown>
+          <ReactMarkdown>{blog.content}</ReactMarkdown>
         </div>
       </div>
     </>
